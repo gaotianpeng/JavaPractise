@@ -1,4 +1,4 @@
-package org.daily.nio.iodemo;
+package org.daily.nio.iodemo.filedemo;
 
 import java.io.File;
 import java.io.FileInputStream;
