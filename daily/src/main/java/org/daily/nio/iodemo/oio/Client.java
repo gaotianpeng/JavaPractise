@@ -8,7 +8,7 @@ public class Client {
         Scanner sc = new Scanner(System.in);
 
         try {
-            Socket socket = new Socket("localhost", 18899);
+            Socket socket = new Socket("localhost", 8888);
             System.out.println("连接的两个端口号:" + socket.getPort() + ", " + socket.getLocalPort());
             if (socket != null) {
                 System.out.println("客户端连接服务器成功");
