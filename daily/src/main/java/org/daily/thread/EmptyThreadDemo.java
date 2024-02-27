@@ -1,7 +1,7 @@
 package org.daily.thread;
 
 public class EmptyThreadDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Thread th = new Thread();
         System.out.println("thread name: " + th.getName());
         System.out.println("thread id: " + th.getId());
