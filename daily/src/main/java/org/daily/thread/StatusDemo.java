@@ -21,20 +21,17 @@ public class StatusDemo {
     static class StatusDemoThread extends Thread {
         public StatusDemoThread() {
             super("statusPrintThread" + (++threadSeqNumber));
-            //将自己加入到全局的静态线程列表
             addStatusThread(this);
         }
 
         public void run() {
             System.out.println(getName() + ", status: " + getState());
             for (int turn = 0; turn < MAX_TURN; turn++) {
-                //线程睡眠
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                //输出所有线程的状态
                 printThreadStatus();
             }
             System.out.println(getName() + "- run over.");
@@ -56,6 +53,6 @@ public class StatusDemo {
         th2.start();
         Thread.sleep(500);
         th3.start();
-        Thread.sleep(10000);
+        Thread.sleep(1000);
     }
 }
