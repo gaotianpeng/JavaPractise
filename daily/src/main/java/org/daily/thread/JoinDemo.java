@@ -1,9 +1,5 @@
 package org.daily.thread;
 
-import sun.awt.windows.WPrinterJob;
-
-import java.sql.SQLOutput;
-
 public class JoinDemo {
     public static final int SLEEP_GAP = 5000;
     public static final int MAX_TURN = 50;
