@@ -1,4 +1,4 @@
-package org.daily.procuderconsumer;
+package com.javapractise.daily.procuderconsumer;
 
 import java.util.LinkedList;
 import java.util.List;
