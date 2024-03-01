@@ -1,5 +1,5 @@
+
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -18,7 +18,6 @@ public class HelloTest {
 
     @Test
     public void sumTest() {
-        System.out.println("sum test");
-        Assertions.assertEquals(1, 1);
+
     }
 }

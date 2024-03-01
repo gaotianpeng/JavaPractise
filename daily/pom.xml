@@ -49,6 +49,12 @@
             <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.javapractise</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+
+        </dependency>
     </dependencies>
     <build>
         <plugins>
