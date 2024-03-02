@@ -1,5 +1,7 @@
 package com.javapractise.daily.procuderconsumer;
 
+import com.javapractise.common.utils.Print;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,11 +16,33 @@ public class NotSafeDataBuffer<T> {
 
     public void add(T element) throws Exception {
         if (amount.get() > MAX_AMOUNT) {
-            System.out.println("queue is full");
+            Print.tcfo("queue is full");
             return;
         }
 
         dataList.add(element);
+        Print.tcfo(element);
+        amount.incrementAndGet();
+
+        if (amount.get() != dataList.size()) {
+            throw new Exception(amount + "!=" + dataList.size());
+        }
+    }
+
+    public T fetch() throws Exception {
+        if (amount.get() <= 0) {
+            Print.tcfo("queue is empty!");
+            return null;
+        }
+
+        T element = dataList.remove(0);
+        Print.tcfo(element);
+        amount.decrementAndGet();
+        if (amount.get() != dataList.size()) {
+            throw new Exception(amount + "!=" + dataList.size());
+        }
+
+        return element;
     }
 
 }
