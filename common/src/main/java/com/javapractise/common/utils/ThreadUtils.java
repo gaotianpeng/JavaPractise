@@ -3,6 +3,7 @@ package com.javapractise.common.utils;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.LockSupport;
@@ -15,7 +16,7 @@ public class ThreadUtils {
     public static final int QUEUE_SIZE = 10000;
     public static final int MIXED_CORE = 0;  //混合线程池核心线程数
     public static final int MIXED_MAX = 128;  //最大线程数
-
+    public static final String MIXED_THREAD_AMOUNT = "mixed.thread.amount";
     public static final int MAXIMUM_POOL_SIZE = CPU_COUNT;
 
     public static final int IO_MAX = Math.max(2, CPU_COUNT * 2);
@@ -33,6 +34,10 @@ public class ThreadUtils {
 
     public static ScheduledThreadPoolExecutor getSeqOrScheduledExecutorService() {
         return SeqOrScheduledTargetThreadPoolLazyHolder.getInnerExecutor();
+    }
+
+    public static ThreadPoolExecutor getMixedTargetThreadPool() {
+        return MixedTargetThreadPoolLazyHolder.getInnerExecutor();
     }
     public static void seqExecutor(Runnable command) {
         getSeqOrScheduledExecutorService().execute(command);
