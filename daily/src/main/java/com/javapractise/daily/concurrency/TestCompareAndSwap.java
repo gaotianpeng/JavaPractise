@@ -1,7 +1,6 @@
 package com.javapractise.daily.concurrency;
 
 import com.javapractise.common.utils.JvmUtils;
-import com.javapractise.common.utils.Print;
 import com.javapractise.common.utils.ThreadUtils;
 import sun.misc.Unsafe;
 
@@ -44,7 +43,6 @@ public class TestCompareAndSwap {
             CountDownLatch latch = new CountDownLatch(THREAD_COUNT);
             for (int i = 0; i < THREAD_COUNT; ++i) {
                 ThreadUtils.getMixedTargetThreadPool().submit(() ->  {
-
                     for (int j = 0; j < 1000; j++) {
                         cas.selfPlus();
                     }
@@ -53,8 +51,8 @@ public class TestCompareAndSwap {
             }
 
             latch.await();
-            System.out.println("累加之和：" + cas.value);
-            System.out.println("失败次数：" + cas.failure.get());
+            System.out.println("sum：" + cas.value);
+            System.out.println("failed：" + cas.failure.get());
         }
     }
 }

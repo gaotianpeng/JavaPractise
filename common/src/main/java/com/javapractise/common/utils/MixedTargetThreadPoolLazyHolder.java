@@ -1,12 +1,11 @@
 package com.javapractise.common.utils;
 
+import static com.javapractise.common.utils.ThreadUtils.*;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import static com.javapractise.common.utils.ThreadUtils.*;
-
 
 public class MixedTargetThreadPoolLazyHolder {
     private static final int max = (null != System.getProperty(MIXED_THREAD_AMOUNT)) ?
@@ -26,16 +25,10 @@ public class MixedTargetThreadPoolLazyHolder {
     }
 
     static {
-
-//        log.info("线程池已经初始化");
-
-
         EXECUTOR.allowCoreThreadTimeOut(true);
-        //JVM关闭时的钩子函数
-        Runtime.getRuntime().addShutdownHook(new ShutdownHookThread("混合型任务线程池", new Callable<Void>() {
+        Runtime.getRuntime().addShutdownHook(new ShutdownHookThread("mixed task thread pool", new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                //优雅关闭线程池
                 shutdownThreadPoolGracefully(EXECUTOR);
                 return null;
             }
