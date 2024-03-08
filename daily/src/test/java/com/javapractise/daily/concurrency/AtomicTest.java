@@ -1,9 +1,14 @@
 package com.javapractise.daily.concurrency;
 
+import com.javapractise.common.utils.Print;
+import com.javapractise.common.utils.ThreadUtils;
 import org.junit.Test;
+import static com.javapractise.common.utils.ThreadUtils.sleepMilliSeconds;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
 
 public class AtomicTest {
@@ -42,4 +47,71 @@ public class AtomicTest {
         temvalue = i.getAndAdd(0, 5);
         System.out.println("temvalue:" + temvalue + ";  i:" + i);
     }
+
+    @Test
+    public void testAtomicStampedReference() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(2);
+        AtomicStampedReference<Integer> atomicStampedRef =
+                        new AtomicStampedReference<>(1, 0);
+        ThreadUtils.getMixedTargetThreadPool().submit(new Runnable() {
+            @Override
+            public void run() {
+                boolean success = false;
+                int stamp = atomicStampedRef.getStamp();
+                Print.tco("before sleep 500: value=" + atomicStampedRef.getReference()
+                            + " stamp=" + atomicStampedRef.getStamp());
+                sleepMilliSeconds(500);
+                success = atomicStampedRef.compareAndSet(1, 10, stamp,
+                        stamp + 1);
+
+                Print.tco("after sleep 500 cas 1: success=" + success
+                            + " value=" + atomicStampedRef.getReference()
+                            + " stamp=" + atomicStampedRef.getStamp());
+                stamp++;
+                success = atomicStampedRef.compareAndSet(10, 1, stamp,
+                        stamp + 1);
+                Print.tco("after sleep 500 cas 2: success=" + success
+                            + " value=" + atomicStampedRef.getReference()
+                            + " stamp=" + atomicStampedRef.getStamp());
+                latch.countDown();
+            }
+        });
+
+        ThreadUtils.getMixedTargetThreadPool().submit(new Runnable() {
+            @Override
+            public void run() {
+                boolean success = false;
+                int stamp = atomicStampedRef.getStamp();
+                Print.tco("before sleep 1000: value=" + atomicStampedRef.getReference()
+                    + " stamp=" + atomicStampedRef.getStamp());
+                sleepMilliSeconds(1000);
+                Print.tco("after sleep 1000: stamp = " + atomicStampedRef.getStamp());
+                success = atomicStampedRef.compareAndSet(1, 20,
+                        stamp, stamp++);
+                Print.tco("after cas 3 1000: success=" + success
+                        + " value=" + atomicStampedRef.getReference()
+                        + " stamp=" + atomicStampedRef.getStamp());
+                latch.countDown();
+            }
+        });
+        latch.await();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
