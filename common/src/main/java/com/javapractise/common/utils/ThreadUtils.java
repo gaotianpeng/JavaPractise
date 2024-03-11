@@ -39,6 +39,10 @@ public class ThreadUtils {
     public static ThreadPoolExecutor getMixedTargetThreadPool() {
         return MixedTargetThreadPoolLazyHolder.getInnerExecutor();
     }
+
+    public static ThreadPoolExecutor getCpuIntenseTargetThreadPool() {
+        return CpuInstenseTargetThreadPoolLazyHolder.getInnerExecutor();
+    }
     public static void seqExecutor(Runnable command) {
         getSeqOrScheduledExecutorService().execute(command);
     }
