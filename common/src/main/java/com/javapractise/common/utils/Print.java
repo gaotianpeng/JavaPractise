@@ -15,6 +15,11 @@ public class Print {
         });
     }
 
+    public static void syncTco(Object s) {
+        String cft = "[" + Thread.currentThread().getName() + "]" + "：" + s;
+        System.out.println(cft);
+    }
+
     /*
         threadName + className + methodName
      */

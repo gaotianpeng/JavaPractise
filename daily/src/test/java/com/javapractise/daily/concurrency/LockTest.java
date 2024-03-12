@@ -1,7 +1,6 @@
 package com.javapractise.daily.concurrency;
 
 import com.javapractise.common.utils.Print;
-import com.javapractise.daily.concurrency.IncrementData;
 
 import org.junit.Test;
 
@@ -77,5 +76,20 @@ public class LockTest {
         float time = (System.currentTimeMillis() - start)/1000F;
         Print.tcfo("run time is:" + time);
         Print.tcfo("sum result is:" + IncrementData.sum);
+    }
+
+    @Test
+    public void testNotFairLock() throws InterruptedException {
+        Lock lock = new ReentrantLock(false);
+
+        Runnable r = ()->IncrementData.lockAndFastIncrease(lock);
+        Thread[] thArr = new Thread[4];
+        for (int i = 0; i < 4; ++i) {
+            thArr[i] = new Thread(r, "thread" + i);
+        }
+        for (int i = 0; i < 4; ++i) {
+            thArr[i].start();
+        }
+        Thread.sleep(Integer.MAX_VALUE);
     }
 }
