@@ -47,4 +47,35 @@ public class LockTest {
         Print.tcfo("run time is:" + time);
         Print.tcfo("sum is:" + IncrementData.sum);
     }
+
+    @Test
+    public void testCLHLockCapability() {
+        final int TURNS = 100000;
+        final int THREADS = 10;
+
+        ExecutorService pool = Executors.newFixedThreadPool(THREADS);
+        Lock lock = new CLHLock();
+
+        CountDownLatch countDownLatch = new CountDownLatch(THREADS);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < THREADS; i++) {
+            pool.submit(() -> {
+                for (int j = 0; j < TURNS; j++) {
+                    IncrementData.lockAndFastIncrease(lock);
+                }
+                Print.tcfo("this thread finish accumulation");
+                countDownLatch.countDown();
+            });
+        }
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        float time = (System.currentTimeMillis() - start)/1000F;
+        Print.tcfo("run time is:" + time);
+        Print.tcfo("sum result is:" + IncrementData.sum);
+    }
 }
