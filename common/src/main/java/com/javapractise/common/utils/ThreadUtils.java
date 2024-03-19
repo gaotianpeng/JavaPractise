@@ -43,6 +43,11 @@ public class ThreadUtils {
     public static ThreadPoolExecutor getCpuIntenseTargetThreadPool() {
         return CpuInstenseTargetThreadPoolLazyHolder.getInnerExecutor();
     }
+
+    public static void scheduleAtFixedRate(Runnable command, int i, TimeUnit unit) {
+        getSeqOrScheduledExecutorService().scheduleAtFixedRate(command, i, i, unit);
+    }
+
     public static void seqExecutor(Runnable command) {
         getSeqOrScheduledExecutorService().execute(command);
     }

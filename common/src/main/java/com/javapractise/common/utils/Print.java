@@ -35,4 +35,12 @@ public class Print {
         String nextLine = sc.nextLine();
         return nextLine;
     }
+
+    public static void fo(Object s) {
+        String cft = "[" + ReflectionUtils.getNakeCallClassMethod() + "]";
+
+        ThreadUtils.seqExecutor(() -> {
+            System.out.println(cft + "：" + s);
+        });
+    }
 }
