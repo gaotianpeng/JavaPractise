@@ -39,4 +39,12 @@ public class Logger {
         String out = String.format("%20s |> %s ", cft, content.toString());
         Print.tcfo(out);
     }
+
+    public static void tcfo(Object s) {
+        String cft = "[" + Thread.currentThread().getName() + "|"
+                    + ReflectionUtils.getNakeCallClassMethod();
+        ThreadUtils.seqExecutor(() ->{
+            System.out.println(cft + ": " + s);
+        });
+    }
 }
